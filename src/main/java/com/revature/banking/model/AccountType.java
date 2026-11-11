@@ -1,4 +1,9 @@
 package com.revature.banking.model;
 
-public class AccountType {
+public enum AccountType {
+    SAVINGS, CURRENT, DEPOSIT, LOAN;
+
+    public boolean spendable() {
+        return this == SAVINGS || this == CURRENT;
+    }
 }

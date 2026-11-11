@@ -3,26 +3,33 @@ package com.revature.banking.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
-public class ConnectionFactory {
+@FunctionalInterface
+public interface ConnectionFactory {
+    Connection open() throws SQLException;
 
-    public static Connection getConnection() throws SQLException {
+    static ConnectionFactory fromEnvironment() {
         String url = System.getenv("DB_URL");
-        String username = System.getenv("DB_USERNAME");
-        String password = System.getenv("DB_PASSWORD");
-
         if (url == null || url.isBlank()) {
-            throw new IllegalStateException("DB_URL is missing");
+            url = "jdbc:postgresql://localhost:5432/Banking_CLI";
         }
+        Properties props = new Properties();
+        props.setProperty("user", required("DB_USERNAME"));
+        props.setProperty("password", required("DB_PASSWORD"));
+        props.setProperty("connectTimeout", "5");
+        String databaseUrl = url;
+        return new ConnectionFactory() {
+            @Override
+            public Connection open() throws SQLException {
+                return DriverManager.getConnection(databaseUrl, props);
+            }
+        };
+    }
 
-        if (username == null || username.isBlank()) {
-            throw new IllegalStateException("DB_USERNAME is missing");
-        }
-
-        if (password == null || password.isEmpty()) {
-            throw new IllegalStateException("DB_PASSWORD is missing");
-        }
-
-        return DriverManager.getConnection(url, username, password);
+    private static String required(String key) {
+        String value = System.getenv(key);
+        if (value == null || value.isBlank()) throw new IllegalStateException(key + " is missing.");
+        return value;
     }
 }

@@ -1,4 +1,3 @@
 package com.revature.banking.model;
 
-public class AccountStatus {
-}
+public enum AccountStatus {ACTIVE, FROZEN, MATURED, CLOSED}

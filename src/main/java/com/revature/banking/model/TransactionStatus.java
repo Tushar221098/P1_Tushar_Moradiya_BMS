@@ -1,4 +1,3 @@
 package com.revature.banking.model;
 
-public class TransactionStatus {
-}
+public enum TransactionStatus {PENDING, SUCCESS, FAILED, REVERSED}

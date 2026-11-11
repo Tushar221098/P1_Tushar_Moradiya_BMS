@@ -1,4 +1,3 @@
 package com.revature.banking.model;
 
-public class CustomerStatus {
-}
+public enum CustomerStatus {ACTIVE, LOCKED, CLOSED}

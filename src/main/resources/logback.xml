@@ -1,0 +1,16 @@
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <target>System.err</target>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><level>WARN</level></filter>
+    <encoder><pattern>%d{HH:mm:ss} %-5level %logger{24} - %msg%n%nopex</pattern></encoder>
+  </appender>
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/banking.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>logs/banking.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>2MB</maxFileSize><maxHistory>7</maxHistory><totalSizeCap>20MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder><pattern>%d{ISO8601} %-5level %logger{36} - %msg%n</pattern></encoder>
+  </appender>
+  <root level="INFO"><appender-ref ref="CONSOLE"/><appender-ref ref="FILE"/></root>
+</configuration>
